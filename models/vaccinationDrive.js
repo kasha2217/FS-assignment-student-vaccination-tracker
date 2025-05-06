@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
 
-const vaccinationDriveSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  vaccine: {
+const DriveSchema = new mongoose.Schema({
+  vaccineName: {
     type: String,
     required: true,
   },
@@ -13,28 +9,22 @@ const vaccinationDriveSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  doseCount: {
+  availableDoses: {
     type: Number,
     required: true,
+    min: [1, "Available doses must be at least 1"],
   },
-  grades: {
-    type: [String], // Example: ["Grade 1", "Grade 2"]
+  applicableClasses: {
+    type: [String],
     required: true,
-  },
-  description: {
-    type: String,
-  },
-  status: {
-    type: String,
-    enum: ["upcoming", "completed"],
-    default: "upcoming",
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+    validate: {
+      validator: function (v) {
+        return Array.isArray(v) && v.length > 0;
+      },
+      message: "Applicable classes must be a non-empty array",
+    },
   },
 });
 
-const Drive = mongoose.model("vaccinationDrive", vaccinationDriveSchema);
-
+const Drive = mongoose.model("Drive", DriveSchema);
 module.exports = Drive;

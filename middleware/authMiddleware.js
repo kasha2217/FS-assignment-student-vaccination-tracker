@@ -1,10 +1,9 @@
 const jwt = require("jsonwebtoken");
-const env = require("dotenv").config();
 
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
   console.log(authHeader);
-  
+
   if (authHeader == null || !authHeader.startsWith("Bearer")) {
     res.status(403).json({ message: "Authentication Error!" });
   }
@@ -18,4 +17,4 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware
+module.exports = authMiddleware;

@@ -1,38 +1,37 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const studentSchema = new mongoose.Schema({
+const StudentSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
-  },
-  dob: {
-    type: Date,
-    required: true
+    required: true,
   },
   class: {
     type: String,
-    required: true
+    required: true,
   },
-  parentContact: {
-    type: String
-  },
-  vaccinationStatus: {
+  studentId: {
     type: String,
-    enum: ['pending', 'vaccinated'],
-    default: 'pending'
+    required: true,
+    unique: true,
   },
-  scheduledDate: {
-    type: Date
-  },
-  vaccineType: {
-    type: String
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  vaccinated: [
+    {
+      vaccine: {
+        type: String,
+        required: true,
+      },
+      driveId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Drive",
+        required: true,
+      },
+      date: {
+        type: Date,
+        required: true,
+      },
+    },
+  ],
 });
 
-const Student = mongoose.model('student', studentSchema);
-
-module.exports = Student
+const Student = mongoose.model("Student", StudentSchema);
+module.exports = Student;
